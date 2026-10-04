@@ -1,0 +1,56 @@
+[project]
+name = "forum-assist"
+version = "0.1.0"
+description = "Human-in-the-loop forum reply drafting tool"
+readme = "README.md"
+authors = [
+    { email = "molly@mollycarroll.dev" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "alembic>=1.20.0",
+    "pydantic-settings[yaml]>=2.15.0",
+    "sqlalchemy>=2.1.3",
+    "typer>=0.27.2",
+]
+
+[project.scripts]
+forum-assist = "forum_assist.cli:app"
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.0",
+    "pytest>=9.1.1",
+    "ruff>=0.16.10",
+]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["forum_assist"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.14"
+mypy_path = "src"
+files = ["src"]
+strict = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live: tests that call a live LLM API (opt-in, run with -m live)"]
+addopts = "-m 'not live'"

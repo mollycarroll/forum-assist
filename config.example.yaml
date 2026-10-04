@@ -1,0 +1,2 @@
+db_url: "sqlite:///data/forum_assist.db"
+log_level: "INFO"
